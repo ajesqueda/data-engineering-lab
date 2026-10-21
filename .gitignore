@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local-only working files (never committed)
+/inbox/
+.DS_Store
+.ruff_cache/
