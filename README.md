@@ -10,7 +10,7 @@ Each folder is self-contained, with its own README, code and tests.
 
 | Topic | What it shows | Source |
 |-------|---------------|--------|
-| _coming soon_ | | |
+| [Atomic file writes](atomic-file-writes/) | Crash-safe output files with the POSIX API: temp file + `fsync` + `rename`, and why in-place overwrites tear | CX651 Week 7 |
 
 ## Run it
 
