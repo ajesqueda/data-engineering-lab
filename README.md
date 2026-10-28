@@ -6,6 +6,15 @@ pipelines, SQL, Spark, Airflow, dbt and the cloud.
 
 Each folder is self-contained, with its own README, code and tests.
 
+## Projects
+
+Larger end-to-end builds live in their own repositories so they can have their own
+deployment, CI and roadmap:
+
+| Project | What it is | Stack |
+|---------|------------|-------|
+| [garmin-health-lakehouse](https://github.com/ajesqueda/garmin-health-lakehouse) | Bronze → silver → gold lakehouse over my Garmin Connect health data, refreshed daily at 6 AM; gold feeds a future recovery-score model | Databricks Free Edition, Lakeflow declarative pipelines, Auto Loader, Unity Catalog, Asset Bundles, PySpark |
+
 ## Index
 
 | Topic | What it shows | Source |
