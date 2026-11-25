@@ -7,6 +7,8 @@
                                                        create it (one transaction), then
                                                        draw the tables that now exist
     python -m schema_starter erd bakery.json           draw the diagram from the spec
+    python -m schema_starter erd bakery.json --svg -o bakery.svg
+                                                       ... as a standalone animated SVG
     python -m schema_starter erd --db bakery_dev --schema bakery
                                                        draw any live schema
 """
@@ -18,7 +20,7 @@ import json
 import sys
 from pathlib import Path
 
-from . import db, ddl, erd, interview, model, spec
+from . import db, ddl, erd, interview, model, spec, svg
 
 
 def _load(path: str) -> dict:
@@ -89,9 +91,12 @@ def cmd_deploy(args) -> int:
               file=sys.stderr)
         return 1
     out = Path(args.erd or f"{schema}-erd.md")
-    out.write_text(erd.markdown(live, f"{schema}: data model",
-                                f"Read from the live database after `deploy` "
-                                f"({len(live)} tables in schema `{schema}`)."))
+    if out.suffix == ".svg":
+        out.write_text(svg.render(live, f"{schema}: data model"))
+    else:
+        out.write_text(erd.markdown(live, f"{schema}: data model",
+                                    f"Read from the live database after `deploy` "
+                                    f"({len(live)} tables in schema `{schema}`)."))
     print(f"created schema {schema} with {len(live)} tables; diagram in {out}")
     return 0
 
@@ -117,7 +122,9 @@ def cmd_erd(args) -> int:
     else:
         print("error: give a spec, or --db and --schema", file=sys.stderr)
         return 1
-    text = erd.markdown(tables, title)
+    as_svg = args.svg or (args.output or "").endswith(".svg")
+    text = svg.render(tables, title, animate=not args.still) if as_svg else erd.markdown(
+        tables, title)
     if args.output:
         Path(args.output).write_text(text)
         print(f"wrote {args.output}")
@@ -149,14 +156,17 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--db", required=True, help="anything psql -d accepts")
     p.add_argument("--replace", action="store_true",
                    help="drop the schema (and all its data) first")
-    p.add_argument("--erd", help="where to write the diagram (default <schema>-erd.md)")
+    p.add_argument("--erd", help="where to write the diagram (default <schema>-erd.md; "
+                   "a .svg name draws an SVG)")
     p.set_defaults(func=cmd_deploy)
 
     p = sub.add_parser("erd", help="draw the ER diagram (Mermaid in Markdown)")
     p.add_argument("spec", nargs="?")
     p.add_argument("--db", help="draw a live schema instead")
     p.add_argument("--schema")
-    p.add_argument("-o", "--output")
+    p.add_argument("-o", "--output", help="a .svg name implies --svg")
+    p.add_argument("--svg", action="store_true", help="standalone SVG instead of Mermaid")
+    p.add_argument("--still", action="store_true", help="SVG without the animation")
     p.set_defaults(func=cmd_erd)
 
     args = parser.parse_args(argv)

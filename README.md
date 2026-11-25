@@ -20,7 +20,7 @@ deployment, CI and roadmap:
 | Topic | What it shows | Source |
 |-------|---------------|--------|
 | [Atomic file writes](atomic-file-writes/) | Crash-safe output files with the POSIX API: temp file + `fsync` + `rename`, and why in-place overwrites tear | CX651 Week 7 |
-| [schema-starter](schema-starter/) | CLI: plain questions about a business -> a 3NF PostgreSQL schema with constraints, deployed in one transaction, with an ER diagram read back from the live database | CX651 Week 13 |
+| [schema-starter](schema-starter/) | CLI: plain questions about a business -> a 3NF PostgreSQL schema with constraints, deployed in one transaction, with an ER diagram read back from the live database ([interactive page](docs/schema-starter/)) | CX651 Week 13 |
 
 ## Run it
 
