@@ -1,0 +1,166 @@
+{
+  "name": "bakery",
+  "description": "A neighborhood bakery that takes orders for pickup.",
+  "entities": [
+    {
+      "name": "customer",
+      "description": "Someone who orders from the bakery.",
+      "attributes": [
+        {
+          "name": "full_name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "email",
+          "type": "email",
+          "required": true,
+          "unique": true
+        },
+        {
+          "name": "phone",
+          "type": "text",
+          "many": true
+        }
+      ]
+    },
+    {
+      "name": "product",
+      "description": "Something the bakery sells.",
+      "attributes": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "unique": true
+        },
+        {
+          "name": "category",
+          "type": "choice",
+          "choices": [
+            "bread",
+            "pastry",
+            "cake"
+          ],
+          "required": true
+        },
+        {
+          "name": "price",
+          "type": "money",
+          "required": true
+        },
+        {
+          "name": "stock_count",
+          "type": "count",
+          "required": true
+        },
+        {
+          "name": "allergen",
+          "type": "choice",
+          "choices": [
+            "gluten",
+            "dairy",
+            "egg",
+            "nuts"
+          ],
+          "many": true
+        }
+      ]
+    },
+    {
+      "name": "customer_order",
+      "description": "One order, picked up at one time.",
+      "attributes": [
+        {
+          "name": "pickup_at",
+          "type": "moment",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "choice",
+          "choices": [
+            "placed",
+            "baking",
+            "ready",
+            "picked_up",
+            "canceled"
+          ],
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "review",
+      "description": "A customer's rating of a product: one per customer per product.",
+      "attributes": [
+        {
+          "name": "rating",
+          "type": "rating",
+          "required": true
+        },
+        {
+          "name": "comment",
+          "type": "text"
+        }
+      ],
+      "unique_together": [
+        [
+          "product",
+          "customer"
+        ]
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "type": "belongs_to",
+      "child": "customer_order",
+      "parent": "customer",
+      "required": true,
+      "on_delete": "restrict"
+    },
+    {
+      "type": "belongs_to",
+      "child": "review",
+      "parent": "product",
+      "required": true,
+      "on_delete": "cascade"
+    },
+    {
+      "type": "belongs_to",
+      "child": "review",
+      "parent": "customer",
+      "required": false,
+      "on_delete": "set null"
+    },
+    {
+      "type": "many_to_many",
+      "between": [
+        "customer_order",
+        "product"
+      ],
+      "name": "order_line",
+      "description": "One product on one order.",
+      "on_delete": [
+        "cascade",
+        "restrict"
+      ],
+      "attributes": [
+        {
+          "name": "quantity",
+          "type": "integer",
+          "min": 1,
+          "max": 100,
+          "required": true
+        },
+        {
+          "name": "unit_price",
+          "type": "money",
+          "required": true,
+          "description": "The price when the order was placed: product.price can change later."
+        }
+      ]
+    }
+  ]
+}
