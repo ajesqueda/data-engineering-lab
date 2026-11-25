@@ -8,6 +8,18 @@ on:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+    # A throwaway PostgreSQL for tests that deploy real schemas (schema-starter).
+    # Trust auth, no password: the database only exists for this job, on its runner.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      SCHEMA_STARTER_TEST_DB: "host=localhost port=5432 user=postgres dbname=postgres"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -16,6 +28,8 @@ jobs:
           cache: pip
       - name: Install dev dependencies
         run: pip install -r requirements-dev.txt
+      - name: PostgreSQL client (psql)
+        run: command -v psql || (sudo apt-get update && sudo apt-get install -y postgresql-client)
       - name: Lint (ruff)
         run: ruff check .
       - name: Test (pytest)
