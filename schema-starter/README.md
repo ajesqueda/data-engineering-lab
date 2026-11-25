@@ -6,7 +6,7 @@
   <a href="#see-it-work"><b>See it work</b></a> &nbsp;·&nbsp;
   <a href="#get-started"><b>Get started</b></a> &nbsp;·&nbsp;
   <a href="#what-the-database-enforces"><b>What it enforces</b></a> &nbsp;·&nbsp;
-  <a href="../docs/schema-starter/"><b>Interactive page</b></a>
+  <a href="https://ajesqueda.github.io/data-engineering-lab/schema-starter/"><b>Interactive page</b></a>
 </p>
 
 <p align="center">
@@ -215,7 +215,7 @@ SCHEMA_STARTER_TEST_DB=mydb pytest schema-starter   # plus the live ones
   - `ON DELETE` restrict, cascade and set null behave as asked, and every link is indexed
   - a script that fails partway leaves no schema behind
 
-The graphics in this README and the [interactive page](../docs/schema-starter/) are
+The graphics in this README and the [interactive page](https://ajesqueda.github.io/data-engineering-lab/schema-starter/) are
 regenerated with `python assets/make_assets.py`.
 
 ## Limits
