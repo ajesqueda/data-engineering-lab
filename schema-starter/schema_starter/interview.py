@@ -126,10 +126,13 @@ def interview(ask: Ask | None = None, say: Say | None = None) -> dict:
     say("")
 
     entities = []
-    for name in names:
+    for i, name in enumerate(names):
         description = ask(f"In a few words, what is a {name}? (optional)\n> ").strip()
+        # The full format once; after that a one-line reminder.
+        how = fmt if i == 0 else ("Same format: name type [required] [unique] [many]. "
+                                  "Empty line when done.")
         attrs = _attributes(ask, say, f"What do you record about each {name}? Each "
-                            f"{name} gets an id and a created_at time automatically.\n{fmt}",
+                            f"{name} gets an id and a created_at time automatically.\n{how}",
                             allow_many=True)
         ent: dict = {"name": name, "attributes": attrs}
         if description:

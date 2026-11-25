@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="1200" height="420" role="img" aria-label="schema-starter: describe your business, get a database">
+<defs>
+<linearGradient id="g" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#2997ff"/><stop offset=".5" stop-color="#bf5af2"/><stop offset="1" stop-color="#ff6482"/></linearGradient>
+<radialGradient id="glow" cx=".5" cy=".9" r=".7"><stop offset="0" stop-color="#2997ff" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+</defs>
+<style>
+  .t { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif; }
+  .up { opacity: 0; animation: up 1s cubic-bezier(.2,.8,.2,1) forwards; }
+  @keyframes up { from { opacity: 0; transform: translateY(18px); }
+                  to { opacity: 1; transform: none; } }
+  @keyframes breathe { 50% { opacity: .55; } }
+  .glow { animation: breathe 6s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .up { animation: none; opacity: 1; } .glow { animation: none; } }
+</style>
+<rect width="1200" height="420" rx="24" fill="#000"/>
+<rect class="glow" width="1200" height="420" rx="24" fill="url(#glow)"/>
+<text class="t up" x="600" y="92" text-anchor="middle" fill="#86868b" style="font-size:20px;font-weight:600;letter-spacing:.02em;animation-delay:0s">schema-starter</text>
+<text class="t up" x="600" y="190" text-anchor="middle" fill="#f5f5f7" style="font-size:64px;font-weight:700;letter-spacing:-.02em;animation-delay:0.15s">Describe your business.</text>
+<text class="t up" x="600" y="268" text-anchor="middle" fill="url(#g)" style="font-size:64px;font-weight:700;letter-spacing:-.02em;animation-delay:0.35s">Get a database.</text>
+<text class="t up" x="600" y="336" text-anchor="middle" fill="#a1a1a6" style="font-size:22px;font-weight:400;letter-spacing:0;animation-delay:0.6s">Plain questions in. A normalized, constrained PostgreSQL schema out,</text>
+<text class="t up" x="600" y="366" text-anchor="middle" fill="#a1a1a6" style="font-size:22px;font-weight:400;letter-spacing:0;animation-delay:0.6s">deployed in one transaction, with a diagram of what was built.</text>
+</svg>
